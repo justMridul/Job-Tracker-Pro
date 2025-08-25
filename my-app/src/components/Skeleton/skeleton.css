@@ -1,0 +1,116 @@
+/* src/components/Skeleton/skeleton.css */
+
+:root {
+  --skel-bg: #dfe7f5;         /* base fill */
+  --skel-bg-2: #e8eefb;        /* secondary fill for depth */
+  --skel-shine: rgba(255,255,255,0.55);
+  --skel-dark: rgba(0, 0, 0, 0.04);
+  --skel-radius: 10px;
+}
+
+/* Dark mode-friendly tokens (optional if you toggle a class on html) */
+html.theme-dark :root,
+:root.dark {
+  --skel-bg: #1d2744;
+  --skel-bg-2: #243055;
+  --skel-shine: rgba(255,255,255,0.22);
+  --skel-dark: rgba(0, 0, 0, 0.24);
+}
+
+/* Core skeleton block */
+.skel {
+  position: relative;
+  display: inline-block;
+  background:
+    linear-gradient(180deg, var(--skel-bg), var(--skel-bg-2));
+  border-radius: var(--skel-radius);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Shimmer animation overlay */
+.skel-anim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    var(--skel-shine) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: skel-shimmer 1.35s ease-in-out infinite;
+  mix-blend-mode: overlay;
+}
+
+/* Line variant (just semantic aliasing for easier targeting) */
+.skel-line {
+  display: block;
+}
+
+/* Rect variant */
+.skel-rect {
+  display: block;
+}
+
+/* Circle variant */
+.skel-circle {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+/* List wrapper */
+.skel-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Composite card layout */
+.skel-card {
+  width: 100%;
+  background: linear-gradient(180deg, var(--skel-bg), var(--skel-bg-2));
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow:
+    0 8px 28px var(--skel-dark),
+    0 0 0 1px rgba(255,255,255,0.04) inset;
+}
+
+.skel-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.skel-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.skel-card__body {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.skel-card__footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Keyframes */
+@keyframes skel-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  .skel-anim::after {
+    animation: none;
+    opacity: 0.25;
+  }
+}

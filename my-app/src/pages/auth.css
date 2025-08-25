@@ -1,0 +1,308 @@
+/* src/pages/auth.css */
+/* Palette: background mint (#d0f4de), card teal (#06d6a0 variant + 219ebc family) */
+
+:root {
+  /* Background (mint) */
+  --bg-hex: #d0f4de;      /* fixed: use the mint as requested */
+  --bg-deep: #bfead0;
+  --bg-light: #e8fbf1;
+
+  /* Card (teal) */
+  --card-base: #219ebc;   /* primary teal for depth */
+  --card-dark: #1b86a0;
+  --card-light: #06d6a0;  /* lively top glaze */
+  --card-tint: rgba(255,255,255,0.55);
+  --card-border: rgba(33,158,188,0.45);
+
+  /* Content & accents */
+  --text: #0a0f14;
+  --muted: rgba(10,15,20,0.7);
+  --ring: rgba(33,158,188,0.28);
+  --input-border: rgba(6,20,30,0.35);
+  --input-border-hover: rgba(6,20,30,0.55);
+
+  /* CTA */
+  --btn-start: #6ea8ff;
+  --btn-end: #4f7dff;
+  --btn-text: #ffffff;
+}
+
+/* ------------ Background with animated aurora + parallax grain ------------ */
+.auth-wrapper {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  padding: 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 620px at 20% 15%, rgba(255,255,255,0.45), transparent 60%),
+    radial-gradient(820px 580px at 85% 85%, rgba(255,255,255,0.35), transparent 65%),
+    linear-gradient(160deg, var(--bg-light), var(--bg-hex), var(--bg-deep));
+  perspective: 1000px;
+}
+
+/* Animated grain (GPU-cheap) */
+.auth-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 280px 280px;
+  mix-blend-mode: multiply;
+  animation: grainShift 20s steps(60) infinite;
+  opacity: 0.8;
+  will-change: transform;
+}
+@keyframes grainShift { to { transform: translate3d(-6%, -6%, 0); } }
+
+/* Aurora sweep */
+.auth-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(40% 60% at 20% 30%, rgba(33,158,188,0.18), transparent 60%),
+    radial-gradient(40% 60% at 80% 70%, rgba(255,255,255,0.16), transparent 60%),
+    radial-gradient(30% 40% at 50% 20%, rgba(58,182,211,0.18), transparent 60%);
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  animation: auroraDrift 18s ease-in-out infinite alternate;
+  pointer-events: none;
+  will-change: transform;
+}
+@keyframes auroraDrift {
+  0%   { transform: translate3d(-2%, -1%, 0) scale(1); }
+  50%  { transform: translate3d(1%, 2%, 0) scale(1.04); }
+  100% { transform: translate3d(-1%, 1%, 0) scale(1.02); }
+}
+
+/* --------------------- Login card: animated, glassy teal ------------------- */
+.auth-card {
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+  color: var(--text);
+  border-radius: 18px;
+  padding: 28px 26px 32px;
+  border: 1px solid var(--card-border);
+  background:
+    linear-gradient(180deg, var(--card-tint), rgba(255,255,255,0.25)),
+    linear-gradient(150deg, var(--card-light), var(--card-base) 60%, var(--card-dark));
+  backdrop-filter: blur(12px) saturate(1.06);
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.18),
+    0 1px 0 rgba(255,255,255,0.2) inset;
+  transform: translateY(16px) scale(0.985);
+  opacity: 0;
+  will-change: transform, opacity, box-shadow;
+}
+
+/* Slide-up on open (explicit trigger via data attributes) */
+.auth-wrapper[data-boot] .auth-card[data-animate] {
+  animation: slideUpIn 520ms cubic-bezier(.2,.7,.2,1) 80ms forwards,
+             cardSheen 6s ease-in-out infinite 1s;
+}
+@keyframes slideUpIn {
+  0%   { opacity: 0; transform: translateY(28px) scale(0.985); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.005); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cardSheen {
+  0%, 100% {
+    box-shadow:
+      0 12px 34px rgba(0, 0, 0, 0.18),
+      0 1px 0 rgba(255,255,255,0.2) inset;
+  }
+  50% {
+    box-shadow:
+      0 14px 40px rgba(0, 0, 0, 0.22),
+      0 1px 0 rgba(255,255,255,0.26) inset;
+  }
+}
+
+.auth-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(33,158,188,0.6);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.22),
+    0 1px 0 rgba(255,255,255,0.28) inset;
+}
+
+/* Corner glow pulses */
+.auth-card::before,
+.auth-card::after {
+  content: "";
+  position: absolute;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  filter: blur(26px);
+  opacity: 0.45;
+  pointer-events: none;
+  animation: glowPulse 7s ease-in-out infinite;
+}
+.auth-card::before {
+  top: -60px; left: -60px;
+  background: radial-gradient(closest-side, rgba(95,210,235,0.55), transparent 70%);
+}
+.auth-card::after {
+  right: -60px; bottom: -60px;
+  background: radial-gradient(closest-side, rgba(200,255,240,0.45), transparent 70%);
+}
+@keyframes glowPulse { 0%,100% { opacity:.35; transform:scale(1); } 50% { opacity:.55; transform:scale(1.05); } }
+
+/* ------------------------------ Typography ------------------------------- */
+.auth-card h1 { margin: 0 0 6px; font-size: 28px; font-weight: 900; letter-spacing: .2px; }
+.auth-subtitle { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+
+/* --------------------------------- Form ---------------------------------- */
+.auth-form .field { margin-bottom: 14px; }
+.auth-form label { display: block; font-size: 12px; color: rgba(8,12,18,0.9); margin-bottom: 6px; }
+
+/* Inputs with focus bloom */
+.auth-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+  background: rgba(255,255,255,0.9);
+  color: #0b1320;
+  outline: none;
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease, transform .12s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+  will-change: box-shadow, border-color, transform, background;
+}
+.auth-form input::placeholder { color: rgba(40,50,60,.55); }
+.auth-form input:hover { border-color: var(--input-border-hover); }
+.auth-form input:focus {
+  border-color: #1f8eb1;
+  box-shadow: 0 0 0 4px var(--ring), inset 0 1px 0 rgba(255,255,255,0.85);
+  background: #ffffff;
+}
+
+/* Staggered entrance for fields and CTA */
+@keyframes fadeRise { from { opacity:0; transform:translateY(10px);} to { opacity:1; transform:translateY(0);} }
+.auth-wrapper[data-boot] .auth-card[data-animate] .auth-form .field,
+.auth-wrapper[data-boot] .auth-card[data-animate] .primary,
+.auth-wrapper[data-boot] .auth-card[data-animate] .switch {
+  opacity: 0; transform: translateY(10px);
+  animation: fadeRise 420ms ease-out forwards;
+}
+.auth-card .auth-form .field:nth-of-type(1) { animation-delay: 160ms; }
+.auth-card .auth-form .field:nth-of-type(2) { animation-delay: 220ms; }
+.auth-card .auth-form .field:nth-of-type(3) { animation-delay: 280ms; }
+.auth-card .primary                           { animation-delay: 340ms; }
+.auth-card .switch                            { animation-delay: 400ms; }
+
+/* Password row */
+.password-row { display: flex; gap: 10px; align-items: stretch; }
+.password-row .ghost {
+  border: 1px solid var(--input-border);
+  background: rgba(255,255,255,0.86);
+  color: #0e1720;
+  border-radius: 12px;
+  padding: 0 14px;
+  min-width: 84px;
+  cursor: pointer;
+  transition: border-color .16s ease, background .16s ease, transform .1s ease;
+}
+.password-row .ghost:hover { border-color: var(--input-border-hover); background: #ffffff; }
+.password-row .ghost:active { transform: translateY(1px) scale(0.99); }
+
+/* ------------------------------- Error chip ------------------------------ */
+.error {
+  background: rgba(180, 40, 70, 0.12);
+  border: 1px solid rgba(190, 60, 100, 0.35);
+  color: #7a1530;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 8px 0 4px;
+  font-size: 13px;
+  animation: slideDown 220ms ease-out;
+}
+@keyframes slideDown { from { opacity:0; transform:translateY(-6px);} to { opacity:1; transform:translateY(0);} }
+
+/* ---------------------------------- CTA ---------------------------------- */
+.primary {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 0;
+  color: var(--btn-text);
+  font-weight: 800;
+  letter-spacing: .2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--btn-start), var(--btn-end));
+  box-shadow:
+    0 10px 24px rgba(92,124,255,.28),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
+  transition: transform .14s ease, filter .2s ease, box-shadow .2s ease;
+  will-change: transform, box-shadow, filter;
+}
+.primary::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -30%;
+  width: 30%; height: 100%;
+  background: linear-gradient(75deg, rgba(255,255,255,0), rgba(255,255,255,0.35), rgba(255,255,255,0));
+  transform: skewX(-22deg);
+  opacity: 0;
+}
+.primary:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 30px rgba(92,124,255,.38),
+    inset 0 0 0 1px rgba(255,255,255,0.65);
+}
+.primary:hover::before { animation: shimmer 1100ms ease-out forwards; }
+@keyframes shimmer { 0% {left:-30%; opacity:0;} 10% {opacity:.8;} 100% {left:130%; opacity:0;} }
+.primary:active { transform: translateY(0) scale(0.997); }
+.primary:disabled { opacity: .65; cursor: not-allowed; filter: saturate(.9); }
+
+/* ------------------------------ Mode switch ------------------------------ */
+.switch {
+  display: flex; gap: 6px; margin-top: 14px;
+  align-items: center; justify-content: center; font-size: 14px; color: var(--muted);
+}
+.link {
+  background: none; color: #0e5ccf; border: none; padding: 0;
+  cursor: pointer; position: relative;
+}
+.link::after {
+  content: "";
+  position: absolute; left: 0; bottom: -2px; height: 2px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s ease;
+}
+.link:hover::after { transform: scaleX(1); }
+
+/* -------------------------- Reduced motion support ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .auth-wrapper::before,
+  .auth-wrapper::after,
+  .auth-card::before,
+  .auth-card::after {
+    animation: none !important;
+  }
+  .auth-wrapper[data-boot] .auth-card[data-animate],
+  .auth-wrapper[data-boot] .auth-card[data-animate] .auth-form .field,
+  .auth-wrapper[data-boot] .auth-card[data-animate] .primary,
+  .auth-wrapper[data-boot] .auth-card[data-animate] .switch {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* ------------------------------- Responsive ------------------------------ */
+@media (max-width: 540px) {
+  .auth-card { padding: 24px 18px 26px; border-radius: 16px; }
+  .auth-card h1 { font-size: 24px; }
+}

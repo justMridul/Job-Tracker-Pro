@@ -1,0 +1,198 @@
+# ====================
+# DEPENDENCIES
+# ====================
+
+# Frontend dependencies (React)
+my-app/node_modules/
+my-app/npm-debug.log*
+my-app/yarn-debug.log*
+my-app/yarn-error.log*
+my-app/pnpm-debug.log*
+
+# Backend dependencies (Node.js)
+backend/node_modules/
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/pnpm-debug.log*
+
+# General node_modules (fallback)
+node_modules/
+**/node_modules/
+
+# ====================
+# ENVIRONMENT VARIABLES
+# ====================
+
+# Frontend environment files
+my-app/.env
+my-app/.env.local
+my-app/.env.development.local
+my-app/.env.test.local
+my-app/.env.production.local
+
+# Backend environment files
+backend/.env
+backend/.env.local
+backend/.env.development
+backend/.env.test
+backend/.env.production
+
+# General environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# ====================
+# BUILD OUTPUTS
+# ====================
+
+# Frontend build outputs (React)
+my-app/build/
+my-app/dist/
+my-app/.next/
+my-app/out/
+
+# Backend build outputs
+backend/build/
+backend/dist/
+
+# General build outputs
+build/
+dist/
+*.tgz
+
+# ====================
+# LOGS
+# ====================
+
+# All log files
+*.log
+logs/
+my-app/logs/
+backend/logs/
+lerna-debug.log*
+
+# NPM/Yarn logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ====================
+# CACHE & TEMP FILES
+# ====================
+
+# NPM cache
+.npm/
+
+# Yarn cache
+.yarn/
+
+# ESLint cache
+.eslintcache
+
+# Parcel cache
+.cache/
+.parcel-cache/
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Temporary files
+*.tmp
+*.temp
+
+# ====================
+# EDITOR & IDE FILES
+# ====================
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+
+# JetBrains IDEs
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ====================
+# OPERATING SYSTEM FILES
+# ====================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+
+# Linux
+*~
+
+# ====================
+# RUNTIME & TESTING
+# ====================
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+coverage/
+.nyc_output/
+
+# ====================
+# DEPLOYMENT & MISC
+# ====================
+
+# Package files
+*.tgz
+*.tar.gz
+
+# Lock files (optional - uncomment if you want to ignore them)
+# my-app/package-lock.json
+# backend/package-lock.json
+
+# Optional: Uncomment if using Yarn
+# my-app/yarn.lock
+# backend/yarn.lock
+
+# Serverless directories
+.serverless/
+
+# Database
+*.sqlite
+*.sqlite3
+
+# Local Netlify folder
+.netlify/
+
+# Vercel
+.vercel/
+
+# Miscellaneous
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

@@ -1,0 +1,60 @@
+/* src/pages/Applications/applications.css */
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+/* Actions & status controls */
+.app-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.app-btn {
+  appearance: none;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #0f172a;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease, background .15s ease;
+}
+.app-btn:hover {
+  border-color: #4f7dff;
+  box-shadow: 0 0 0 3px rgba(79,125,255,.25);
+}
+.app-btn:active { transform: translateY(1px); }
+.app-btn.outline { background: transparent; }
+
+.app-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.app-status-select {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+/* Empty state */
+.apps-empty {
+  margin-top: 28px;
+  text-align: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 18px;
+  color: #475569;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .apps-grid { gap: 14px; }
+}

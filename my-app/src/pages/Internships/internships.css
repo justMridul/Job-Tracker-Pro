@@ -1,0 +1,50 @@
+/* src/pages/Internships/internships.css */
+
+.internships-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+/* Card action buttons */
+.intern-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.intern-btn {
+  appearance: none;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #0f172a;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease, background .15s ease;
+}
+.intern-btn:hover {
+  border-color: #4f7dff;
+  box-shadow: 0 0 0 3px rgba(79,125,255,.25);
+}
+.intern-btn:active { transform: translateY(1px); }
+
+.intern-btn.outline {
+  background: transparent;
+}
+
+/* Empty state */
+.intern-empty {
+  margin-top: 28px;
+  text-align: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 18px;
+  color: #475569;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .internships-grid { gap: 14px; }
+}

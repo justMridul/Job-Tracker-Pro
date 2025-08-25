@@ -1,0 +1,430 @@
+/* src/pages/Home/home.module.css */
+/* Professional, modern design with enhanced animations and responsiveness */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 60px 50px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 
+              0 0 0 1px rgba(255, 255, 255, 0.05);
+  max-width: 1400px;
+  width: 95%;
+  min-height: calc(100vh - 80px);
+  text-align: center;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+.card:hover::before {
+  left: 100%;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.15), 
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1a202c;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.description {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  color: #4a5568;
+  line-height: 1.7;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* Enhanced container for controls with better spacing */
+.actionButtonsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 40px 0 32px;
+  flex-wrap: wrap;
+}
+
+/* Professional primary CTA button */
+.ctaButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  padding: 16px 32px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  min-width: 180px;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.ctaButton:hover::before {
+  left: 0;
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.ctaButton:active {
+  transform: translateY(-1px);
+}
+
+/* Enhanced circular icon button */
+.iconCircle {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+  color: #ffffff;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.iconCircle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.iconCircle:hover::before {
+  opacity: 1;
+}
+
+.iconCircle:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+}
+
+/* Filter input with modern design */
+.filterInput {
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  font-size: 1rem;
+  font-family: inherit;
+  width: 400px;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  color: #2d3748;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.filterInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15),
+              0 8px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.filterInput::placeholder {
+  color: #718096;
+  opacity: 0.8;
+}
+
+/* Enhanced job list grid with better spacing */
+.jobList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+  text-align: left;
+  padding: 0 20px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  }
+  
+  .card {
+    background: rgba(26, 32, 44, 0.95);
+    color: #e2e8f0;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .title {
+    color: #e2e8f0;
+  }
+  
+  .description {
+    color: #a0aec0;
+  }
+  
+  .filterInput {
+    background: rgba(45, 55, 72, 0.8);
+    color: #e2e8f0;
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+  
+  .filterInput::placeholder {
+    color: #718096;
+  }
+}
+
+/* Professional responsive breakpoints */
+@media (max-width: 1200px) {
+  .card {
+    width: 92%;
+    padding: 50px 40px;
+  }
+  
+  .title {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .card {
+    padding: 40px 32px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+  }
+  
+  .actionButtonsWrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .filterInput {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .jobList {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .card {
+    padding: 32px 24px;
+    max-width: 100%;
+    width: 100%;
+    border-radius: 20px;
+    min-height: calc(100vh - 60px);
+  }
+  
+  .title {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .iconCircle {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+  
+  .ctaButton {
+    font-size: 0.85rem;
+    padding: 14px 28px;
+    min-width: 160px;
+  }
+  
+  .actionButtonsWrapper {
+    margin: 32px 0 24px;
+  }
+  
+  .jobList {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0;
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.9rem;
+  }
+  
+  .card {
+    padding: 28px 20px;
+  }
+  
+  .ctaButton {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .filterInput {
+    width: 100%;
+  }
+}
+
+/* High resolution displays */
+@media (min-resolution: 2dppx) {
+  .card {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 
+                0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+  
+  .ctaButton {
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+}
+
+/* Print styles */
+@media print {
+  .container {
+    background: white;
+    padding: 0;
+  }
+  
+  .card {
+    background: white;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .ctaButton,
+  .iconCircle {
+    display: none;
+  }
+  
+  .title {
+    color: black;
+    background: none;
+    -webkit-text-fill-color: black;
+  }
+  
+  .description {
+    color: #333;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .ctaButton,
+  .iconCircle,
+  .filterInput {
+    transition: none;
+  }
+  
+  .card::before,
+  .ctaButton::before,
+  .iconCircle::before {
+    display: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid #000;
+  }
+  
+  .ctaButton {
+    border: 2px solid #fff;
+  }
+  
+  .filterInput {
+    border: 2px solid #000;
+  }
+}
