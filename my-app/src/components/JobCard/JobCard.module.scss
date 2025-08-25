@@ -1,0 +1,173 @@
+.card {
+  background-color: #ffffff;
+  padding: 24px;
+  margin-bottom: 20px;
+  border-radius: 16px; /* slightly larger radius for modern look */
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 2px 10px rgba(0, 0, 0, 0.05); /* layered shadows for subtle depth */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-8px);
+    box-shadow:
+      0 14px 40px rgba(0, 0, 0, 0.15),
+      0 5px 24px rgba(0, 0, 0, 0.1);
+    outline: none;
+    background-color: #fafafa; /* subtle highlight */
+  }
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 14px;
+  color: #1e293b;
+  font-weight: 700;
+  line-height: 1.2;
+  user-select: text;
+}
+
+.company {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #475569;
+  font-size: 1.1rem;
+}
+
+.location {
+  color: #64748b;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.status {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+  user-select: none;
+  margin-bottom: 12px;
+}
+
+.applied {
+  color: #16a34a; /* Green */
+  font-weight: 700;
+}
+
+.pending {
+  color: #f59e0b; /* Amber */
+  font-weight: 700;
+}
+
+.input,
+.select {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 1.15rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: inherit;
+  outline-offset: 3px;
+
+  &:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+    outline: none;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.editButton,
+.saveButton,
+.cancelButton,
+.deleteButton {
+  border-radius: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.25s ease;
+  font-family: inherit;
+  user-select: none;
+  outline-offset: 3px;
+}
+
+.editButton {
+  background-color: #2563eb; /* Blue */
+  color: #fff;
+
+  &:hover,
+  &:focus-visible {
+    background-color: #1d4ed8;
+    box-shadow: 0 0 14px rgba(29, 78, 216, 0.7);
+    outline: none;
+  }
+}
+
+.saveButton {
+  background-color: #22c55e; /* Emerald */
+  color: #fff;
+
+  &:hover,
+  &:focus-visible {
+    background-color: #16a34a;
+    box-shadow: 0 0 14px rgba(22, 163, 74, 0.7);
+    outline: none;
+  }
+}
+
+.cancelButton {
+  background-color: #ef4444; /* Red */
+  color: #fff;
+
+  &:hover,
+  &:focus-visible {
+    background-color: #dc2626;
+    box-shadow: 0 0 14px rgba(220, 38, 38, 0.7);
+    outline: none;
+  }
+}
+
+.deleteButton {
+  background-color: #b91c1c; /* Darker Red */
+  color: #fff;
+  margin-top: 18px;
+  align-self: flex-start;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+
+  &:hover,
+  &:focus-visible {
+    background-color: #991b1b;
+    box-shadow: 0 0 14px rgba(153, 27, 27, 0.7);
+    outline: none;
+  }
+}
+
+/* Accessibility: visible outline on keyboard focus */
+.editButton:focus-visible,
+.saveButton:focus-visible,
+.cancelButton:focus-visible,
+.deleteButton:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}

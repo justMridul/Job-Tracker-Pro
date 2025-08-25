@@ -1,0 +1,169 @@
+/* src/components/Tags/tagInput.css */
+
+:root {
+  --tag-bg: #0f1530;
+  --tag-border: #2a3760;
+  --tag-ring: rgba(110,168,255,.35);
+  --tag-text: #e9eeff;
+  --tag-muted: #a9b6d8;
+
+  /* color swatches */
+  --tag-default: #33406b;
+  --tag-blue: #3f6aff;
+  --tag-green: #26b57a;
+  --tag-yellow: #d8a63b;
+  --tag-red: #d66a7a;
+  --tag-purple: #8c6bff;
+  --tag-teal: #16b3c2;
+
+  --tag-default-bg: rgba(51,64,107,.18);
+  --tag-blue-bg: rgba(63,106,255,.18);
+  --tag-green-bg: rgba(38,181,122,.18);
+  --tag-yellow-bg: rgba(216,166,59,.18);
+  --tag-red-bg: rgba(214,106,122,.18);
+  --tag-purple-bg: rgba(140,107,255,.18);
+  --tag-teal-bg: rgba(22,179,194,.18);
+}
+
+/* Container */
+.tag-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 8px;
+}
+.tag-input.is-disabled { opacity: .65; pointer-events: none; }
+
+.tag-input__wrap {
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--tag-border);
+  background: linear-gradient(180deg, #0a1230, #0b1333);
+  color: var(--tag-text);
+  border-radius: 12px;
+  padding: 8px 10px;
+  outline: none;
+}
+.tag-input.is-focused .tag-input__wrap {
+  border-color: #3a4b85;
+  box-shadow: 0 0 0 4px var(--tag-ring);
+}
+
+/* Input */
+.tag-input__field {
+  flex: 1;
+  min-width: 140px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--tag-text);
+  padding: 6px 2px;
+}
+.tag-input__field::placeholder { color: rgba(200,210,240,.55); }
+
+/* Meta (counter) */
+.tag-input__meta {
+  align-self: center;
+  font-size: 12px;
+  color: var(--tag-muted);
+}
+
+/* Tag pill */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--tag-border);
+  padding: 6px 8px 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  position: relative;
+}
+.tag-active {
+  box-shadow: 0 0 0 3px var(--tag-ring);
+}
+
+/* Colorized variants */
+.tag-default { background: var(--tag-default-bg); border-color: var(--tag-default); }
+.tag-blue    { background: var(--tag-blue-bg);    border-color: var(--tag-blue); }
+.tag-green   { background: var(--tag-green-bg);   border-color: var(--tag-green); }
+.tag-yellow  { background: var(--tag-yellow-bg);  border-color: var(--tag-yellow); }
+.tag-red     { background: var(--tag-red-bg);     border-color: var(--tag-red); }
+.tag-purple  { background: var(--tag-purple-bg);  border-color: var(--tag-purple); }
+.tag-teal    { background: var(--tag-teal-bg);    border-color: var(--tag-teal); }
+
+.tag-text {
+  color: var(--tag-text);
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Color chooser */
+.tag-color-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--tag-border);
+  background: linear-gradient(135deg, #6ea8ff, #4f7dff);
+  cursor: pointer;
+}
+.tag-color-btn:hover { box-shadow: 0 0 0 3px var(--tag-ring); }
+
+.tag-color-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 8px;
+  display: grid;
+  grid-template-columns: repeat(7, 20px);
+  gap: 8px;
+  background: #0f1530f2;
+  border: 1px solid var(--tag-border);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  z-index: 10;
+}
+.tag-color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--tag-border);
+  cursor: pointer;
+}
+.tag-color-swatch:hover { box-shadow: 0 0 0 3px var(--tag-ring); }
+
+.tag-color-swatch.tag-default { background: var(--tag-default); }
+.tag-color-swatch.tag-blue    { background: var(--tag-blue); }
+.tag-color-swatch.tag-green   { background: var(--tag-green); }
+.tag-color-swatch.tag-yellow  { background: var(--tag-yellow); }
+.tag-color-swatch.tag-red     { background: var(--tag-red); }
+.tag-color-swatch.tag-purple  { background: var(--tag-purple); }
+.tag-color-swatch.tag-teal    { background: var(--tag-teal); }
+
+/* Remove button */
+.tag-remove {
+  appearance: none;
+  border: 1px solid var(--tag-border);
+  background: transparent;
+  color: var(--tag-text);
+  border-radius: 999px;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+.tag-remove:hover { border-color: #3a4b85; box-shadow: 0 0 0 3px var(--tag-ring); }
+
+/* Responsive */
+@media (max-width: 520px) {
+  .tag-text { max-width: 140px; }
+  .tag-color-pop { grid-template-columns: repeat(7, 18px); gap: 6px; padding: 8px; }
+}

@@ -1,0 +1,188 @@
+/* src/components/Tour/tour.css */
+
+:root {
+  --tour-bg: rgba(8, 12, 24, 0.6);
+  --tour-card-bg: #0f1530f2;
+  --tour-border: #2a3760;
+  --tour-text: #e9eeff;
+  --tour-muted: #a9b6d8;
+  --tour-accent: #6ea8ff;
+  --tour-ring: rgba(110,168,255,.35);
+}
+
+/* Overlay container */
+.tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Dimmed backdrop */
+.tour-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--tour-bg);
+  backdrop-filter: blur(2px);
+  pointer-events: auto;
+  animation: tourFadeIn .25s ease;
+}
+
+/* Spotlight mask highlighting the target element */
+.tour-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --r: 14px;
+  mask:
+    linear-gradient(#000, #000),
+    radial-gradient(24px 24px at calc(var(--tour-x) + var(--tour-w)/2) calc(var(--tour-y) + var(--tour-h)/2), #0000 0, #0000 calc(max(var(--tour-w), var(--tour-h)) / 2 + 40px), #000 0);
+  -webkit-mask:
+    linear-gradient(#000, #000),
+    radial-gradient(24px 24px at calc(var(--tour-x) + var(--tour-w)/2) calc(var(--tour-y) + var(--tour-h)/2), #0000 0, #0000 calc(max(var(--tour-w), var(--tour-h)) / 2 + 40px), #000 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+}
+
+/* Card base */
+.tour-card {
+  position: absolute;
+  width: 440px;
+  max-width: calc(100vw - 24px);
+  color: var(--tour-text);
+  background: var(--tour-card-bg);
+  border: 1px solid var(--tour-border);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+  box-shadow:
+    0 14px 40px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255,255,255,.04) inset;
+  pointer-events: auto;
+  animation: tourSlideUp .32s cubic-bezier(.2,.7,.2,1);
+}
+
+/* Centered fallback */
+.tour-card--center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+/* Arrow indicators for popover placement */
+.tour-card--popover[data-placement="top"]::after,
+.tour-card--popover[data-placement="bottom"]::after,
+.tour-card--popover[data-placement="left"]::after,
+.tour-card--popover[data-placement="right"]::after {
+  content: "";
+  position: absolute;
+  width: 12px; height: 12px;
+  background: var(--tour-card-bg);
+  border-left: 1px solid var(--tour-border);
+  border-top: 1px solid var(--tour-border);
+  transform: rotate(45deg);
+}
+.tour-card--popover[data-placement="top"]::after {
+  left: 50%; bottom: -6px; transform: translateX(-50%) rotate(45deg);
+}
+.tour-card--popover[data-placement="bottom"]::after {
+  left: 50%; top: -6px; transform: translateX(-50%) rotate(45deg);
+}
+.tour-card--popover[data-placement="left"]::after {
+  right: -6px; top: 50%; transform: translateY(-50%) rotate(45deg);
+}
+.tour-card--popover[data-placement="right"]::after {
+  left: -6px; top: 50%; transform: translateY(-50%) rotate(45deg);
+}
+
+/* Header */
+.tour-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tour-step {
+  font-size: 12px;
+  color: var(--tour-muted);
+}
+.tour-close {
+  appearance: none;
+  border: 1px solid var(--tour-border);
+  background: transparent;
+  color: var(--tour-text);
+  border-radius: 8px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.tour-close:hover {
+  border-color: #3a4b85;
+  box-shadow: 0 0 0 3px var(--tour-ring);
+}
+
+/* Body */
+.tour-title {
+  margin: 8px 2px 4px;
+  font-size: 16px;
+  font-weight: 800;
+}
+.tour-body {
+  margin: 0 2px 10px;
+  font-size: 14px;
+  color: var(--tour-muted);
+}
+
+/* Actions */
+.tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tour-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.tour-btn {
+  appearance: none;
+  border: 1px solid var(--tour-border);
+  background: linear-gradient(180deg, #0c1434, #0e173a);
+  color: var(--tour-text);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.tour-btn:hover { border-color: #3a4b85; }
+.tour-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.tour-btn.ghost {
+  background: transparent;
+  color: #cfd8ff;
+}
+
+.tour-btn.primary {
+  background: linear-gradient(135deg, #6ea8ff, #4f7dff);
+  border: 0;
+  color: #fff;
+  box-shadow:
+    0 8px 22px rgba(79,125,255,.35),
+    inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* Animations */
+@keyframes tourFadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes tourSlideUp {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .tour-card { padding: 14px 12px 12px; }
+  .tour-title { font-size: 15px; }
+  .tour-body { font-size: 13px; }
+}
