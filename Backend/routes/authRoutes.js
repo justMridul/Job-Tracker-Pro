@@ -19,6 +19,9 @@ router.get("/test", (_req, res) => {
 // Google OAuth routes
 router.post("/google", AuthController.googleAuth);
 
+// ✅ ADD THIS: Google OAuth callback route (for Google's redirect)
+router.get("/google/callback", AuthController.googleCallback);
+
 // Token refresh & logout
 router.post("/refresh", AuthController.refresh);
 router.post("/logout", AuthController.logout);
