@@ -13,10 +13,13 @@ const morgan = require("morgan");
 
 const app = express();
 
+// Enable trust proxy for reverse proxy headers
+app.set('trust proxy', process.env.TRUST_PROXY || 1);
+
 /**
  * Environment
  */
-const PORT = Number(process.env.PORT) || 4000;
+const PORT = Number(process.env.PORT) || 5000; // FIXED: Changed from 4000 to match your setup
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 
@@ -104,7 +107,7 @@ app.use("/api/jobs", require("./routes/jobRoutes"));
 // Optional legacy applications route
 const fs = require("fs");
 if (fs.existsSync(path.join(__dirname, "routes/applicationRoutes.js"))) {
-  app.use("/applications", require("./routes/applicationRoutes"));
+  app.use("/api/applications", require("./routes/applicationRoutes")); // FIXED: Added /api prefix
 }
 
 /**
@@ -195,8 +198,7 @@ process.on("SIGINT", async () => {
       console.log(`📍 CORS origin: ${CORS_ORIGIN}`);
       console.log(`🛣️ Available routes:`);
       console.log(` - GET  /health`);
-      console.log(` - POST /auth/login`);
-      console.log(` - POST /auth/register`);
+      console.log(` - POST /auth/google`); // FIXED: Updated route info
       console.log(` - GET  /auth/me`);
       console.log(` - POST /auth/refresh`);
       console.log(` - POST /auth/logout`);
@@ -213,5 +215,3 @@ process.on("SIGINT", async () => {
 })();
 
 module.exports = app;
-
-// just updating the git push
