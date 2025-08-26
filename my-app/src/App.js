@@ -4,12 +4,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import styled from "styled-components";
+
 import Layout from "./components/Layout";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Settings from "./pages/Settings/settings";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+
 import { AuthProvider, useAuth } from "./context/authContext";
 import { AppProvider } from "./context/AppContext";
 import { JobProvider } from "./context/JobContext";
