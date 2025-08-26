@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { 
-  FaBars, FaTimes, FaCode, FaHome, FaTachometerAlt, 
-  FaInfoCircle, FaCog, FaSignInAlt 
+import {
+  FaBars, FaTimes, FaCode, FaHome, FaTachometerAlt,
+  FaInfoCircle, FaCog, FaSignInAlt
 } from "react-icons/fa";
 import styled, { css, createGlobalStyle } from "styled-components";
 import { useAuth } from "../../context/authContext";
@@ -106,7 +106,7 @@ const NavItemLink = styled(NavLink)`
   &.active {
     color: ${({ theme }) => theme.colors?.primary || '#2563eb'};
     background: ${({ theme }) => theme.colors?.primary || '#2563eb'}15;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -273,7 +273,6 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const overlayRef = useRef(null);
-
   const { user } = useAuth(); // ✅ auth state
 
   // Close mobile menu on outside click
@@ -288,6 +287,7 @@ const Navbar = () => {
         setIsMobileMenuOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobileMenuOpen]);
@@ -299,6 +299,7 @@ const Navbar = () => {
         setIsMobileMenuOpen(false);
       }
     };
+
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isMobileMenuOpen]);
@@ -306,18 +307,18 @@ const Navbar = () => {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // ✅ Dynamic nav items
+  // ✅ Dynamic nav items - FIXED: Changed /auth to /login
   const navItems = [
     { to: "/", label: "Home", icon: FaHome, always: true },
     { to: "/about", label: "About", icon: FaInfoCircle, always: true },
     ...(user
       ? [
-          { to: "/dashboard", label: "Dashboard", icon: FaTachometerAlt },
-          { to: "/settings", label: "Settings", icon: FaCog },
-        ]
+        { to: "/dashboard", label: "Dashboard", icon: FaTachometerAlt },
+        { to: "/settings", label: "Settings", icon: FaCog },
+      ]
       : [
-          { to: "/auth", label: "Login / Register", icon: FaSignInAlt },
-        ]),
+        { to: "/login", label: "Login / Register", icon: FaSignInAlt }, // ✅ FIXED: Changed from /auth to /login
+      ]),
   ];
 
   return (
@@ -326,7 +327,7 @@ const Navbar = () => {
       <NavbarContainer>
         <NavbarInner>
           {/* Brand */}
-          <Brand to="/" onClick={closeMobileMenu}>
+          <Brand to="/">
             <FaCode />
             Job Tracker Pro
           </Brand>
@@ -337,7 +338,6 @@ const Navbar = () => {
               <NavItem key={to}>
                 <NavItemLink
                   to={to}
-                  end
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <Icon />
@@ -348,11 +348,7 @@ const Navbar = () => {
           </DesktopMenu>
 
           {/* Hamburger */}
-          <HamburgerButton
-            onClick={toggleMobileMenu}
-            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={isMobileMenuOpen}
-          >
+          <HamburgerButton onClick={toggleMobileMenu} aria-label="Toggle menu">
             {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
           </HamburgerButton>
         </NavbarInner>
@@ -373,14 +369,12 @@ const Navbar = () => {
             <FaTimes />
           </CloseButton>
         </MobileMenuHeader>
-
         <MobileNav>
           <MobileNavList>
             {navItems.map(({ to, label, icon: Icon }) => (
               <MobileNavItem key={to}>
                 <MobileNavLink
                   to={to}
-                  end
                   onClick={closeMobileMenu}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
