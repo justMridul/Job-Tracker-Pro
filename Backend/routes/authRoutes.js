@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 const AuthController = require("../Controllers/authController");
-const verifyAccessToken = require("../middlewares/verifyAccessToken");
+const verifyAccessToken = require("../MiddleWares/verifyAccessToken");
 
 // Simple test route
 router.get("/test", (_req, res) => {
