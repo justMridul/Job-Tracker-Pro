@@ -9,12 +9,12 @@ my-app/yarn-debug.log*
 my-app/yarn-error.log*
 my-app/pnpm-debug.log*
 
-# Backend dependencies (Node.js)
-backend/node_modules/
-backend/npm-debug.log*
-backend/yarn-debug.log*
-backend/yarn-error.log*
-backend/pnpm-debug.log*
+# Backend dependencies (Node.js) - CORRECTED CASE
+Backend/node_modules/
+Backend/npm-debug.log*
+Backend/yarn-debug.log*
+Backend/yarn-error.log*
+Backend/pnpm-debug.log*
 
 # General node_modules (fallback)
 node_modules/
@@ -31,12 +31,12 @@ my-app/.env.development.local
 my-app/.env.test.local
 my-app/.env.production.local
 
-# Backend environment files
-backend/.env
-backend/.env.local
-backend/.env.development
-backend/.env.test
-backend/.env.production
+# Backend environment files - CORRECTED CASE
+Backend/.env
+Backend/.env.local
+Backend/.env.development
+Backend/.env.test
+Backend/.env.production
 
 # General environment files
 .env
@@ -54,9 +54,9 @@ my-app/dist/
 my-app/.next/
 my-app/out/
 
-# Backend build outputs
-backend/build/
-backend/dist/
+# Backend build outputs - CORRECTED CASE
+Backend/build/
+Backend/dist/
 
 # General build outputs
 build/
@@ -71,7 +71,7 @@ dist/
 *.log
 logs/
 my-app/logs/
-backend/logs/
+Backend/logs/
 lerna-debug.log*
 
 # NPM/Yarn logs
@@ -169,13 +169,13 @@ coverage/
 *.tgz
 *.tar.gz
 
-# Lock files (optional - uncomment if you want to ignore them)
+# Lock files (keep these for reproducible builds)
 # my-app/package-lock.json
-# backend/package-lock.json
+# Backend/package-lock.json
 
 # Optional: Uncomment if using Yarn
 # my-app/yarn.lock
-# backend/yarn.lock
+# Backend/yarn.lock
 
 # Serverless directories
 .serverless/
