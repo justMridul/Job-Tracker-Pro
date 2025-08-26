@@ -1,6 +1,8 @@
 // src/App.js
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import styled from "styled-components";
 import Layout from "./components/Layout";
 import Home from "./pages/Home/Home";
@@ -23,129 +25,112 @@ const ThemedAppWrapper = styled.div`
   flex-direction: column;
 `;
 
-// ✅ Simple ProtectedRoute component
+// ✅ Fixed ProtectedRoute component
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
-  
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  
   return children;
 };
 
-// ✅ AuthOnlyRoute - redirects logged-in users away from login
+// ✅ Fixed AuthOnlyRoute - redirects logged-in users away from login
 const AuthOnlyRoute = ({ children }) => {
   const { user } = useAuth();
-  
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
-  
   return children;
 };
 
-// ✅ Homepage Wrapper with AddJobForm
+// ✅ Homepage Wrapper with proper JSX
 const HomePageWrapper = () => {
   return (
-    <AppProvider>
-      <JobProvider>
-        <Layout>
-          <Home />
-        </Layout>
-      </JobProvider>
-    </AppProvider>
+    <Layout>
+      <Home />
+    </Layout>
   );
 };
 
-// ✅ Dashboard Wrapper (separate from Homepage)
+// ✅ Dashboard Wrapper with proper JSX
 const DashboardWrapper = () => {
   return (
-    <AppProvider>
-      <JobProvider>
-        <Layout>
-          <Dashboard />
-        </Layout>
-      </JobProvider>
-    </AppProvider>
+    <Layout>
+      <Dashboard />
+    </Layout>
   );
 };
 
-// ✅ App Routes Component
+// ✅ App Routes Component with complete JSX
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route
-        path="/login"
+      <Route 
+        path="/" 
+        element={<HomePageWrapper />} 
+      />
+      <Route 
+        path="/about" 
+        element={
+          <Layout>
+            <About />
+          </Layout>
+        } 
+      />
+      <Route 
+        path="/login" 
         element={
           <AuthOnlyRoute>
             <Login />
           </AuthOnlyRoute>
-        }
+        } 
       />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <HomePageWrapper />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard"
+      <Route 
+        path="/dashboard" 
         element={
           <ProtectedRoute>
             <DashboardWrapper />
           </ProtectedRoute>
-        }
+        } 
       />
-      <Route
-        path="/home"
-        element={
-          <ProtectedRoute>
-            <HomePageWrapper />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/about"
-        element={
-          <ProtectedRoute>
-            <Layout>
-              <About />
-            </Layout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/settings"
+      <Route 
+        path="/settings" 
         element={
           <ProtectedRoute>
             <Layout>
               <Settings />
             </Layout>
           </ProtectedRoute>
-        }
+        } 
       />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route 
+        path="*" 
+        element={<Navigate to="/" replace />} 
+      />
     </Routes>
   );
 };
 
-// ✅ Main App Component
+// ✅ Complete Main App Component with Google OAuth Provider
 function App() {
   return (
-    <ThemeProvider>
-      <SnackbarProvider>
-        <Router>
-          <AuthProvider>
-            <ThemedAppWrapper>
-              <AppRoutes />
-            </ThemedAppWrapper>
-          </AuthProvider>
-        </Router>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppProvider>
+            <JobProvider>
+              <SnackbarProvider>
+                <ThemedAppWrapper>
+                  <Router>
+                    <AppRoutes />
+                  </Router>
+                </ThemedAppWrapper>
+              </SnackbarProvider>
+            </JobProvider>
+          </AppProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   );
 }
 
