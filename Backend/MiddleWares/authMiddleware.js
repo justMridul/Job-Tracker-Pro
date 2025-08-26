@@ -1,7 +1,7 @@
 "use strict";
 
 const jwt = require("jsonwebtoken");
-const User = require("../Models/User");
+const User = require("../models/User");
 
 class UnauthorizedError extends Error {
   constructor(message = "Not authorized") {
