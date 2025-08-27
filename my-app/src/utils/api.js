@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// ✅ Use environment variable with fallback
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+
 const API = axios.create({
-  baseURL: "http://localhost:4000", // Backend API base URL
+  baseURL: API_BASE_URL, // ✅ Use variable instead of hardcoded URL
   withCredentials: true, // allow cookies if you later set any
 });
 
@@ -23,13 +26,13 @@ export function setAccessToken(token) {
   }
 }
 
-// Refresh access token function
+// ✅ Fix refresh token function to use environment variable
 export const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
   if (!refreshToken) throw new Error("No refresh token stored");
 
   const res = await axios.post(
-    "http://localhost:4000/auth/refresh",
+    `${API_BASE_URL}/auth/refresh`, // ✅ Use variable instead of hardcoded URL
     { refreshToken },
     { withCredentials: true }
   );
@@ -54,7 +57,7 @@ API.interceptors.response.use(
         console.error("Token refresh failed:", err);
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/auth";
+        window.location.href = "/login"; // ✅ Fixed path
       }
     }
     return Promise.reject(error);
