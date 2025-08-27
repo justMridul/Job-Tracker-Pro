@@ -5,7 +5,7 @@ import JobCard from "../../components/JobCard/JobCard";
 import AddJobForm from "../../components/AddJobForm/AddJobForm";
 import { useJobs } from "../../context/JobContext";
 
-// Styled components
+// Styled components with enhanced mobile responsiveness
 const Container = styled.main`
   min-height: 100vh;
   display: flex;
@@ -15,6 +15,14 @@ const Container = styled.main`
   background: ${({ theme }) => theme.colors.background};
   padding: 20px;
   box-sizing: border-box;
+  
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 5px;
+  }
 `;
 
 const Card = styled.section`
@@ -34,16 +42,26 @@ const Card = styled.section`
   @media (max-width: 1024px) {
     width: 90%;
     padding: 40px 48px;
+    min-height: calc(100vh - 80px);
   }
 
   @media (max-width: 768px) {
     width: 95%;
     padding: 32px 24px;
+    min-height: calc(100vh - 60px);
   }
 
   @media (max-width: 480px) {
     width: 98%;
     padding: 24px 16px;
+    min-height: calc(100vh - 40px);
+    border-radius: 15px;
+  }
+  
+  @media (max-width: 320px) {
+    width: 100%;
+    padding: 20px 12px;
+    border-radius: 10px;
   }
 `;
 
@@ -52,13 +70,25 @@ const Title = styled.h1`
   margin-bottom: 1.5rem;
   color: ${({ theme }) => theme.colors.textPrimary};
   font-weight: 800;
+  line-height: 1.2;
+
+  @media (max-width: 1024px) {
+    font-size: 3rem;
+  }
 
   @media (max-width: 768px) {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  
+  @media (max-width: 320px) {
+    font-size: 1.8rem;
   }
 `;
 
@@ -72,8 +102,15 @@ const Description = styled.p`
   margin-right: auto;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 2.5rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 10px;
   }
 `;
 
@@ -88,6 +125,7 @@ const ControlsRow = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 20px;
+    margin: 24px 0 20px;
   }
 `;
 
@@ -99,6 +137,7 @@ const FilterInput = styled.input`
   font-family: ${({ theme }) => theme.typography.fontFamily};
   width: 400px;
   max-width: 100%;
+  min-height: 44px; /* Touch-friendly target size */
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.textPrimary};
   transition: border-color 0.3s, box-shadow 0.3s;
@@ -117,6 +156,14 @@ const FilterInput = styled.input`
   @media (max-width: 768px) {
     width: 100%;
     max-width: 400px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 14px 18px;
+  }
+  
+  @media (max-width: 480px) {
+    max-width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
   }
 `;
 
@@ -129,6 +176,16 @@ const StatsContainer = styled.div`
 
   @media (max-width: 768px) {
     gap: 20px;
+    margin: 16px 0 24px;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 16px;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 320px) {
+    gap: 8px;
   }
 `;
 
@@ -139,10 +196,11 @@ const StatCard = styled.div`
   padding: 16px 24px;
   text-align: center;
   min-width: 120px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   h3 {
@@ -150,6 +208,10 @@ const StatCard = styled.div`
     font-weight: 700;
     margin: 0 0 4px;
     color: ${({ theme }) => theme.colors.primary};
+    
+    @media (max-width: 480px) {
+      font-size: 1.6rem;
+    }
   }
 
   p {
@@ -158,27 +220,45 @@ const StatCard = styled.div`
     color: ${({ theme }) => theme.colors.textSecondary};
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+      letter-spacing: 0.3px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    min-width: 100px;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+  
+  @media (max-width: 320px) {
+    min-width: 80px;
+    padding: 10px 12px;
   }
 `;
 
 const JobList = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
   margin-top: 40px;
   text-align: left;
   padding: 0 20px;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 24px;
     padding: 0 10px;
+    margin-top: 32px;
   }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 20px;
     padding: 0;
+    margin-top: 24px;
   }
 `;
 
@@ -191,11 +271,25 @@ const EmptyState = styled.div`
     font-size: 1.5rem;
     margin-bottom: 12px;
     color: ${({ theme }) => theme.colors.textPrimary};
+    
+    @media (max-width: 480px) {
+      font-size: 1.3rem;
+    }
   }
 
   p {
     font-size: 1.1rem;
     opacity: 0.8;
+    line-height: 1.5;
+    
+    @media (max-width: 480px) {
+      font-size: 1rem;
+      padding: 0 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    padding: 40px 15px;
   }
 `;
 
@@ -206,6 +300,13 @@ const LoadingContainer = styled.div`
   height: 200px;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 18px;
+  
+  @media (max-width: 480px) {
+    height: 150px;
+    font-size: 16px;
+    padding: 0 20px;
+    text-align: center;
+  }
 `;
 
 const ContentSection = styled.div`

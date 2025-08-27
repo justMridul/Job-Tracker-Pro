@@ -30,6 +30,11 @@ const NavbarContainer = styled.nav`
   @supports (backdrop-filter: blur(10px)) {
     background: ${({ theme }) => theme.colors?.surface || 'rgba(255, 255, 255, 0.9)'};
   }
+  
+  /* Mobile optimization */
+  @media (max-width: 480px) {
+    height: 60px;
+  }
 `;
 
 const NavbarInner = styled.div`
@@ -43,6 +48,10 @@ const NavbarInner = styled.div`
 
   @media (max-width: 768px) {
     padding: 0 20px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 16px;
   }
 `;
 
@@ -64,6 +73,16 @@ const Brand = styled(NavLink)`
 
   svg {
     font-size: 28px;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
+    font-size: 20px;
+    gap: 8px;
+    
+    svg {
+      font-size: 24px;
+    }
   }
 `;
 
@@ -139,10 +158,16 @@ const HamburgerButton = styled.button`
   color: ${({ theme }) => theme.colors?.textPrimary || '#374151'};
   cursor: pointer;
   transition: all 0.3s ease;
+  /* Touch-friendly */
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     background: ${({ theme }) => theme.colors?.background || '#f3f4f6'};
     color: ${({ theme }) => theme.colors?.primary || '#2563eb'};
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 
   svg {
@@ -182,9 +207,15 @@ const MobileMenu = styled.aside`
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1002;
   overflow-y: auto;
+  /* Smooth scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
 
   @media (max-width: 400px) {
     width: 280px;
+  }
+  
+  @media (max-width: 320px) {
+    width: 100vw;
   }
 `;
 
@@ -194,6 +225,10 @@ const MobileMenuHeader = styled.div`
   justify-content: space-between;
   padding: 20px 24px;
   border-bottom: 1px solid ${({ theme }) => theme.colors?.border || 'rgba(0, 0, 0, 0.1)'};
+  
+  @media (max-width: 480px) {
+    padding: 16px 20px;
+  }
 `;
 
 const MobileMenuTitle = styled.h3`
@@ -201,6 +236,10 @@ const MobileMenuTitle = styled.h3`
   font-size: 18px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors?.textPrimary || '#374151'};
+  
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -215,10 +254,16 @@ const CloseButton = styled.button`
   color: ${({ theme }) => theme.colors?.textSecondary || '#6b7280'};
   cursor: pointer;
   transition: all 0.3s ease;
+  /* Touch-friendly */
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     background: ${({ theme }) => theme.colors?.background || '#f3f4f6'};
     color: ${({ theme }) => theme.colors?.textPrimary || '#374151'};
+  }
+
+  &:active {
+    transform: scale(0.9);
   }
 
   svg {
@@ -229,6 +274,10 @@ const CloseButton = styled.button`
 // Mobile nav
 const MobileNav = styled.nav`
   padding: 20px 0;
+  
+  @media (max-width: 480px) {
+    padding: 16px 0;
+  }
 `;
 
 const MobileNavList = styled.ul`
@@ -249,11 +298,18 @@ const MobileNavLink = styled(NavLink)`
   color: ${({ theme }) => theme.colors?.textPrimary || '#374151'};
   transition: all 0.3s ease;
   border-left: 3px solid transparent;
+  /* Touch-friendly */
+  -webkit-tap-highlight-color: transparent;
+  min-height: 48px; /* Better touch target */
 
   &:hover {
     background: ${({ theme }) => theme.colors?.background || '#f3f4f6'};
     color: ${({ theme }) => theme.colors?.primary || '#2563eb'};
     border-left-color: ${({ theme }) => theme.colors?.primary || '#2563eb'};
+  }
+
+  &:active {
+    background: ${({ theme }) => theme.colors?.primary || '#2563eb'}20;
   }
 
   &.active {
@@ -265,6 +321,11 @@ const MobileNavLink = styled(NavLink)`
   svg {
     font-size: 18px;
     opacity: 0.8;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 14px 20px;
+    gap: 14px;
   }
 `;
 

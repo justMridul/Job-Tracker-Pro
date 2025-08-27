@@ -1,4 +1,6 @@
 /* src/index.css */
+
+/* CSS Custom Properties for Light/Dark Theme */
 :root {
   --bg: #ffffff;
   --bg-secondary: #f9fafb;
@@ -9,6 +11,12 @@
   --card-bg: #ffffff;
   --border: #e5e7eb;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  
+  /* Mobile-specific variables */
+  --mobile-padding: 10px;
+  --mobile-border-radius: 8px;
+  --touch-target-size: 44px;
 }
 
 html.dark {
@@ -21,10 +29,28 @@ html.dark {
   --card-bg: #1e1e2f;
   --border: #2d2d3a;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Base Styles with Mobile Optimization */
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px; /* Base font size to prevent zoom on mobile */
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in iOS */
+  -ms-text-size-adjust: 100%; /* Prevent font scaling in IE/Edge */
 }
 
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -33,9 +59,204 @@ body {
   background: var(--bg);
   color: var(--text);
   transition: background 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  min-height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Mobile-Friendly Base Elements */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure inputs don't cause zoom on iOS */
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: 16px; /* Prevents zoom on iOS when focused */
+}
+
+/* Touch-friendly button styles */
+button {
+  min-height: var(--touch-target-size);
+  min-width: var(--touch-target-size);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Link styles */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Responsive Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  line-height: 1.3;
+  margin: 0 0 1rem 0;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+/* Mobile Responsive Breakpoints */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* Slightly smaller on mobile */
+  }
+  
+  body {
+    line-height: 1.5;
+  }
+  
+  /* Improved touch targets on mobile */
+  button,
+  input[type="button"],
+  input[type="submit"],
+  .button {
+    min-height: 48px; /* Larger touch targets on mobile */
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* Even more mobile-friendly spacing */
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.1rem; }
+  h5, h6 { font-size: 1rem; }
+}
+
+/* Focus Styles for Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar for Webkit Browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Dark mode scrollbar */
+html.dark ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Utility Classes for Mobile */
+.mobile-hidden {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #000000;
+    --text-secondary: #000000;
+  }
+  
+  html.dark {
+    --border: #ffffff;
+    --text-secondary: #ffffff;
+  }
 }
