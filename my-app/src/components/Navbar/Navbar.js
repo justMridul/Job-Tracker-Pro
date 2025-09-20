@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaBars, FaTimes, FaCode, FaHome, FaTachometerAlt,
-  FaInfoCircle, FaCog, FaSignInAlt
+  FaInfoCircle, FaCog, FaSignInAlt, FaSignOutAlt, FaUser
 } from "react-icons/fa";
 import styled, { css, createGlobalStyle } from "styled-components";
 import { useAuth } from "../../context/authContext";
@@ -138,6 +138,53 @@ const NavItemLink = styled(NavLink)`
       border-radius: 2px;
     }
   }
+
+  svg {
+    font-size: 16px;
+  }
+`;
+
+// ✅ NEW: Logout Button for Desktop
+const LogoutButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors?.textPrimary || '#374151'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors?.background || '#f3f4f6'};
+    color: #dc2626;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    font-size: 16px;
+  }
+`;
+
+// ✅ NEW: User Info Display for Desktop
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors?.primary || '#2563eb'}10;
+  color: ${({ theme }) => theme.colors?.primary || '#2563eb'};
+  font-size: 14px;
+  font-weight: 500;
 
   svg {
     font-size: 16px;
@@ -329,12 +376,99 @@ const MobileNavLink = styled(NavLink)`
   }
 `;
 
-// ✅ Navbar Component
+// ✅ NEW: Mobile Logout Button
+const MobileLogoutButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-decoration: none;
+  font-weight: 500;
+  color: #dc2626;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  /* Touch-friendly */
+  -webkit-tap-highlight-color: transparent;
+  min-height: 48px;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    background: #fef2f2;
+    border-left-color: #dc2626;
+  }
+
+  &:active {
+    background: #fee2e2;
+  }
+
+  svg {
+    font-size: 18px;
+    opacity: 0.8;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 14px 20px;
+    gap: 14px;
+  }
+`;
+
+// ✅ NEW: Mobile User Info
+const MobileUserInfo = styled.div`
+  padding: 16px 24px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors?.border || 'rgba(0, 0, 0, 0.1)'};
+  background: ${({ theme }) => theme.colors?.primary || '#2563eb'}08;
+  
+  @media (max-width: 480px) {
+    padding: 14px 20px;
+  }
+`;
+
+const MobileUserName = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors?.primary || '#2563eb'};
+  font-size: 16px;
+
+  svg {
+    font-size: 18px;
+  }
+`;
+
+const MobileUserEmail = styled.div`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors?.textSecondary || '#6b7280'};
+  margin-top: 4px;
+  margin-left: 30px;
+`;
+
+// ✅ Navbar Component with Logout
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const overlayRef = useRef(null);
-  const { user } = useAuth(); // ✅ auth state
+  const { user, logout } = useAuth(); // ✅ Added logout from context
+
+  //  NEW: Logout handler
+  const handleLogout = async () => {
+    const confirmLogout = window.confirm('Are you sure you want to logout?');
+    if (confirmLogout) {
+      try {
+        await logout();
+        setIsMobileMenuOpen(false); // Close mobile menu
+        // Optional: Show success message
+        // You can add a toast notification here if you have one
+      } catch (error) {
+        console.error('Logout failed:', error);
+        // Optional: Show error message
+      }
+    }
+  };
 
   // Close mobile menu on outside click
   useEffect(() => {
@@ -368,7 +502,7 @@ const Navbar = () => {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // ✅ Dynamic nav items - FIXED: Changed /auth to /login
+  // ✅ Dynamic nav items
   const navItems = [
     { to: "/", label: "Home", icon: FaHome, always: true },
     { to: "/about", label: "About", icon: FaInfoCircle, always: true },
@@ -378,7 +512,7 @@ const Navbar = () => {
         { to: "/settings", label: "Settings", icon: FaCog },
       ]
       : [
-        { to: "/login", label: "Login / Register", icon: FaSignInAlt }, // ✅ FIXED: Changed from /auth to /login
+        { to: "/login", label: "Login / Register", icon: FaSignInAlt },
       ]),
   ];
 
@@ -406,6 +540,24 @@ const Navbar = () => {
                 </NavItemLink>
               </NavItem>
             ))}
+            
+            {/* ✅ NEW: Desktop User Info & Logout */}
+            {user && (
+              <>
+                <NavItem>
+                  <UserInfo>
+                    <FaUser />
+                    {user.name || user.email}
+                  </UserInfo>
+                </NavItem>
+                <NavItem>
+                  <LogoutButton onClick={handleLogout}>
+                    <FaSignOutAlt />
+                    Logout
+                  </LogoutButton>
+                </NavItem>
+              </>
+            )}
           </DesktopMenu>
 
           {/* Hamburger */}
@@ -430,6 +582,18 @@ const Navbar = () => {
             <FaTimes />
           </CloseButton>
         </MobileMenuHeader>
+
+        {/*  NEW: Mobile User Info */}
+        {user && (
+          <MobileUserInfo>
+            <MobileUserName>
+              <FaUser />
+              {user.name || 'User'}
+            </MobileUserName>
+            <MobileUserEmail>{user.email}</MobileUserEmail>
+          </MobileUserInfo>
+        )}
+
         <MobileNav>
           <MobileNavList>
             {navItems.map(({ to, label, icon: Icon }) => (
@@ -444,6 +608,16 @@ const Navbar = () => {
                 </MobileNavLink>
               </MobileNavItem>
             ))}
+            
+            {/*  NEW: Mobile Logout Button */}
+            {user && (
+              <MobileNavItem>
+                <MobileLogoutButton onClick={handleLogout}>
+                  <FaSignOutAlt />
+                  Logout
+                </MobileLogoutButton>
+              </MobileNavItem>
+            )}
           </MobileNavList>
         </MobileNav>
       </MobileMenu>

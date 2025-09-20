@@ -1,7 +1,7 @@
 // src/context/authContext.js
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import API, { refreshAccessToken } from "../utils/api";
+import API, { refreshAccessToken, logoutUser } from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -31,15 +31,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Enhanced logout function
   const logout = async () => {
     try {
-      await API.post("/auth/logout", { refreshToken: localStorage.getItem("refreshToken") });
-    } catch (_) {}
-
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-    setUser(null);
+      // Use the enhanced logoutUser from api.js
+      await logoutUser();
+      
+      // Clear user state
+      setUser(null);
+      
+      // Optional: Redirect to login page
+      // Uncomment the next line if you want automatic redirect
+      // window.location.href = "/login";
+      
+      return { success: true, message: "Logged out successfully!" };
+    } catch (error) {
+      console.error("Logout error:", error);
+      
+      // Even if logout fails, clear local state
+      setUser(null);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      
+      return { success: true, message: "Logged out locally!" };
+    }
   };
 
   const refresh = useCallback(async () => {

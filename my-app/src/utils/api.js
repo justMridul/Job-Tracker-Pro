@@ -1,12 +1,15 @@
 import axios from "axios";
 
-// ✅ Use environment variable with fallback
+
+//  Use environment variable with fallback
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+
 
 const API = axios.create({
   baseURL: API_BASE_URL, // ✅ Use variable instead of hardcoded URL
   withCredentials: true, // allow cookies if you later set any
 });
+
 
 // Attach access token to each request
 API.interceptors.request.use((config) => {
@@ -17,6 +20,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
+
 // Helper to set/remove access token explicitly
 export function setAccessToken(token) {
   if (token) {
@@ -26,21 +30,25 @@ export function setAccessToken(token) {
   }
 }
 
+
 // ✅ Fix refresh token function to use environment variable
 export const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
   if (!refreshToken) throw new Error("No refresh token stored");
 
+
   const res = await axios.post(
-    `${API_BASE_URL}/auth/refresh`, // ✅ Use variable instead of hardcoded URL
+    `${API_BASE_URL}/auth/refresh`, //  Use variable instead of hardcoded URL
     { refreshToken },
     { withCredentials: true }
   );
+
 
   const { accessToken } = res.data;
   localStorage.setItem("accessToken", accessToken);
   return accessToken;
 };
+
 
 // Response interceptor for handling 401 and refreshing token
 API.interceptors.response.use(
@@ -64,10 +72,38 @@ API.interceptors.response.use(
   }
 );
 
+
 // ===== Auth API (Google OAuth only) =====
 export const googleAuth = (credential) => API.post("/auth/google", { credential });
-export const logoutUser = () => API.post("/auth/logout");
+
+// ✅ Enhanced logout function with complete cleanup
+export const logoutUser = async () => {
+  try {
+    // Call backend logout endpoint
+    const response = await API.post("/auth/logout");
+    
+    // Clear all stored tokens and data
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    sessionStorage.clear();
+    
+    return response.data;
+  } catch (error) {
+    // Even if API call fails, clear local storage
+    console.error("Logout API failed:", error);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    sessionStorage.clear();
+    
+    // Still return success for UI purposes
+    return { success: true, message: "Logged out locally" };
+  }
+};
+
 export const getMe = () => API.get("/auth/me");
+
 
 // ===== Application API =====
 export const createApplication = (data) => API.post("/applications", data);
@@ -77,10 +113,12 @@ export const updateApplicationStatus = (id, status) =>
 export const getApplicationsByUser = (userId, queryParams) =>
   API.get(`/applications/user/${userId}`, { params: queryParams });
 
+
 // ===== Optional Job API =====
 export const createJob = (data) => API.post("/api/jobs", data);
 export const updateJob = (id, data) => API.put(`/api/jobs/${id}`, data);
 export const getJobs = (queryParams) => API.get("/api/jobs", { params: queryParams });
 export const getJobById = (id) => API.get(`/api/jobs/${id}`);
+
 
 export default API;
